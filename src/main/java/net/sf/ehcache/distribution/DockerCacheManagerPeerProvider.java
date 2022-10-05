@@ -46,10 +46,8 @@ public class DockerCacheManagerPeerProvider extends RMICacheManagerPeerProvider 
 	/**
 	 * Creates and starts a multicast peer provider
 	 *
-	 * @param groupMulticastAddress 224.0.0.1 to 239.255.255.255 e.g. 230.0.0.1
-	 * @param groupMulticastPort    1025 to 65536 e.g. 4446
-	 * @param hostAddress           the address of the interface to use for sending
-	 *                              and receiving multicast. May be null.
+	 * @param cacheManager The cache manager
+	 * @param serviceName  The Docker swarm service name to inspect
 	 */
 	public DockerCacheManagerPeerProvider(CacheManager cacheManager, String serviceName) {
 		super(cacheManager);
@@ -130,7 +128,7 @@ public class DockerCacheManagerPeerProvider extends RMICacheManagerPeerProvider 
 	 * <p>
 	 * This method is thread-safe. It relies on peerUrls being a synchronizedMap
 	 *
-	 * @param rmiUrl
+	 * @param rmiUrl the rmiUrl of the peer
 	 */
 	public final void registerPeer(String rmiUrl) {
 		try {
