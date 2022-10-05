@@ -2,7 +2,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>io.github.capsi-informatique</groupId>
 	<artifactId>ehcache-replication-docker</artifactId>
-	<version>1.0.0</version>
+	<version>1.0.1-SNAPSHOT</version>
 	<name>ehcache-replication-docker</name>
 	<description>Ehcache rmi peer provider for docker env</description>
 	
@@ -45,7 +45,7 @@
 		<connection>scm:git:git://github.com/capsi-informatique/ehcache-replication-docker.git</connection>
 		<developerConnection>scm:git:git@github.com:capsi-informatique/ehcache-replication-docker.git</developerConnection>
 		<url>https://github.com/capsi-informatique/ehcache-replication-docker</url>
-		<tag>ehcache-replication-docker-1.0.0</tag>
+		<tag>HEAD</tag>
 	</scm>
 
 	<properties>
