@@ -47,7 +47,12 @@
 		<url>https://github.com/capsi-informatique/ehcache-replication-docker</url>
 		<tag>HEAD</tag>
 	</scm>
-	
+
+	<properties>
+		<java.version>1.8</java.version>
+		<version.maven-gpg-plugin>1.6</version.maven-gpg-plugin>
+	</properties>
+
 	<dependencies>
 		<dependency>
 			<groupId>com.github.docker-java</groupId>
