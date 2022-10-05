@@ -1,0 +1,57 @@
+<ehcache xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="https://ehcache.org/ehcache.xsd"
+         updateCheck="false"
+         name="cqpac">
+         
+	<diskStore path="java.io.tmpdir/test" />
+    
+         
+	<cacheManagerPeerProviderFactory
+			class="net.sf.ehcache.distribution.DockerCacheManagerPeerProviderFactory"
+			properties="dockerSwarmServiceName=ehcachetest_app"
+			/>
+
+	<cacheManagerPeerListenerFactory
+			class="net.sf.ehcache.distribution.RMICacheManagerPeerListenerFactory"
+			properties="socketTimeoutMillis=20000,port=40001"
+			propertySeparator="," />
+			
+	
+	<!-- Cache par défaut -->
+	<defaultCache
+			maxElementsInMemory="1000"
+			eternal="false"
+			timeToIdleSeconds="1800"
+			timeToLiveSeconds="3600"
+			overflowToDisk="false"
+			diskPersistent="false"
+			memoryStoreEvictionPolicy="LRU"
+			statistics="true">
+		<cacheEventListenerFactory class="net.sf.ehcache.distribution.RMICacheReplicatorFactory" properties="replicateAsynchronously=true,replicatePuts=false,replicateRemovals=true,replicateUpdates=true,replicateUpdatesViaCopy=false,asynchronousReplicationIntervalMillis=1000"/>
+	</defaultCache>
+
+	<cache name="testCache1"
+			maxElementsInMemory="100"
+			timeToLiveSeconds="10"
+			timeToIdleSeconds="10"
+			eternal="false"
+			overflowToDisk="false"
+			diskPersistent="false"
+			memoryStoreEvictionPolicy="LRU"
+			statistics="true">
+		<cacheEventListenerFactory class="net.sf.ehcache.distribution.RMICacheReplicatorFactory" properties="replicateAsynchronously=true,replicatePuts=true,replicateRemovals=true,replicateUpdates=true,replicateUpdatesViaCopy=true,asynchronousReplicationIntervalMillis=1000"/>
+	</cache>
+	
+	<cache name="testCache2"
+			maxElementsInMemory="300"
+			timeToLiveSeconds="10"
+			timeToIdleSeconds="10"
+			eternal="false"
+			overflowToDisk="false"
+			diskPersistent="false"
+			memoryStoreEvictionPolicy="LRU"
+			statistics="true">
+		<cacheEventListenerFactory class="net.sf.ehcache.distribution.RMICacheReplicatorFactory" properties="replicateAsynchronously=true,replicatePuts=true,replicateRemovals=true,replicateUpdates=true,replicateUpdatesViaCopy=true,asynchronousReplicationIntervalMillis=200"/>
+	</cache>
+    
+</ehcache>
