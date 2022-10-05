@@ -6,6 +6,15 @@ Actual : Docker Swarm environments supports only via Docker api for service insp
 This register classical rmi cache peers with adresses on cluster
 Cache peers are refreshed every seconds
 
+Usage :
+
+	<dependency>
+		<groupId>io.github.capsi-informatique</groupId>
+		<artifactId>ehcache-replication-docker</artifactId>
+		<version>1.0.0</version>
+	</dependency>
+
+And in you ehcache.xml :
 
 	<cacheManagerPeerProviderFactory
 			class="net.sf.ehcache.distribution.DockerCacheManagerPeerProviderFactory"
