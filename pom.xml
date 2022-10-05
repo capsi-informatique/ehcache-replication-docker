@@ -1,23 +1,65 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <groupId>fr.rci</groupId>
-  <artifactId>ehcache-replication-docker</artifactId>
-  <version>1.0.0-SNAPSHOT</version>
-
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>fr.rci</groupId>
+	<artifactId>ehcache-replication-docker</artifactId>
+	<version>1.0.0-SNAPSHOT</version>
+	<name>ehcache-replication-docker</name>
+	<description>Ehcache rmi peer provider for docker env</description>
+	
+	<url>https://github.com/capsi-informatique/ehcache-replication-docker</url>
+	<organization>
+		<url>https://github.com/capsi-informatique</url>
+		<name>Capsi Informatique</name>
+	</organization>
+	<inceptionYear>2022</inceptionYear>
+	<licenses>
+		<license>
+			<name>The Apache License, Version 2.0</name>
+			<url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+		</license>
+	</licenses>
+	<developers>
+		<developer>
+			<name>Stéphane Routhiau</name>
+			<email>stephane.routhiau@gmail.com</email>
+			<organization>Capsi Informatique</organization>
+			<organizationUrl>https://www.capsi-informatique.fr/</organizationUrl>
+			<timezone>UTC+01:00</timezone>
+		</developer>
+	</developers>
+	<issueManagement>
+		<system>Github</system>
+		<url>https://github.com/capsi-informatique/ehcache-replication-docker/issues</url>
+	</issueManagement>
+	<distributionManagement>
+		<snapshotRepository>
+			<id>ossrh</id>
+			<url>https://s01.oss.sonatype.org/content/repositories/snapshots/</url>
+		</snapshotRepository>
+		<repository>
+			<id>ossrh</id>
+			<url>https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+		</repository>
+	</distributionManagement>
+	<scm>
+		<connection>scm:git:git://github.com/capsi-informatique/ehcache-replication-docker.git</connection>
+		<developerConnection>scm:git:git@github.com:capsi-informatique/ehcache-replication-docker.git</developerConnection>
+		<url>https://github.com/capsi-informatique/ehcache-replication-docker</url>
+		<tag>HEAD</tag>
+	</scm>
+	
 	<dependencies>
 		<dependency>
-		    <groupId>com.github.docker-java</groupId>
-		    <artifactId>docker-java</artifactId>
-		    <version>[3.2.13,)</version>
+			<groupId>com.github.docker-java</groupId>
+			<artifactId>docker-java</artifactId>
+			<version>[3.2.13,)</version>
 		</dependency>
-		
 		<dependency>
 			<groupId>net.sf.ehcache</groupId>
 			<artifactId>ehcache</artifactId>
 			<version>[2.6.2,)</version>
 		</dependency>
 	</dependencies>
-
 	<build>
 		<plugins>
 			<plugin>
@@ -30,5 +72,4 @@
 			</plugin>
 		</plugins>
 	</build>
-
 </project>
