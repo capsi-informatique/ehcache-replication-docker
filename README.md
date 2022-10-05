@@ -1,5 +1,10 @@
 # ehcache-replication-docker
-Ehcache peer provider for docker env
+Ehcache peer provider for docker environments
+
+Actual : Docker Swarm environments supports only via Docker api for service inspection. 
+
+This register classical rmi cache peers with adresses on cluster
+Cache peers are refreshed every seconds
 
 
 	<cacheManagerPeerProviderFactory
@@ -24,3 +29,5 @@ Ehcache peer provider for docker env
 			statistics="true">
 		<cacheEventListenerFactory class="net.sf.ehcache.distribution.RMICacheReplicatorFactory" properties="replicateAsynchronously=true,replicatePuts=false,replicateRemovals=true,replicateUpdates=true,replicateUpdatesViaCopy=false,asynchronousReplicationIntervalMillis=1000"/>
 	</defaultCache>
+	
+Upcoming soon, kubernetes support...
