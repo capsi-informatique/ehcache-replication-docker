@@ -57,12 +57,20 @@
 		<dependency>
 			<groupId>com.github.docker-java</groupId>
 			<artifactId>docker-java</artifactId>
-			<version>[3.2.13,)</version>
+			<version>3.2.13</version>
+			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>net.sf.ehcache</groupId>
 			<artifactId>ehcache</artifactId>
 			<version>[2.6.2,)</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+		    <groupId>io.kubernetes</groupId>
+		    <artifactId>client-java</artifactId>
+		    <version>11.0.4</version>
+			<scope>provided</scope>
 		</dependency>
 	</dependencies>
 	
