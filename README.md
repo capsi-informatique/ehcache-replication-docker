@@ -13,7 +13,7 @@ Usage Docker swarm :
 	<dependency>
 		<groupId>io.github.capsi-informatique</groupId>
 		<artifactId>ehcache-replication-docker</artifactId>
-		<version>1.0.1</version>
+		<version>1.0.3</version>
 	</dependency>
 	<dependency>
 		<groupId>com.github.docker-java</groupId>
@@ -33,7 +33,7 @@ And in you ehcache.xml :
 			properties="socketTimeoutMillis=20000,port=40001"
 			propertySeparator="," />
 			
-	<!-- Cache par défaut -->
+	<!-- Cache par defaut -->
 	<defaultCache
 			maxElementsInMemory="1000"
 			eternal="false"
@@ -52,7 +52,7 @@ Usage K8S :
 	<dependency>
 		<groupId>io.github.capsi-informatique</groupId>
 		<artifactId>ehcache-replication-docker</artifactId>
-		<version>1.0.1</version>
+		<version>1.0.3</version>
 	</dependency>
 	<dependency>
 	    <groupId>io.kubernetes</groupId>
