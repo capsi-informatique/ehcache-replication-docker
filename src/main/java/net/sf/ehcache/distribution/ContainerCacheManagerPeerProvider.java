@@ -53,8 +53,11 @@ public abstract class ContainerCacheManagerPeerProvider extends RMICacheManagerP
         try {
         	hostName = InetAddress.getLocalHost().getHostName();
         	hostAdress = InetAddress.getLocalHost().getHostAddress() ;
+    		LOG.debug("Initializing {} : hostName={}, hostAdress={}", this.getClass(), hostName, hostAdress);
         	executor = Executors.newScheduledThreadPool(1) ;
         	executor.scheduleWithFixedDelay(this::registerDockerPeers, 1000, 1000, TimeUnit.MILLISECONDS) ;
+    		LOG.debug("Registered docker ehcache peer provider task in executor");
+
         } catch (Exception exception) {
             LOG.error("Error getting docker client. Error was: " + exception.getMessage(), exception);
         }
@@ -71,6 +74,7 @@ public abstract class ContainerCacheManagerPeerProvider extends RMICacheManagerP
         }
         List<String> otherContainerNames = getOtherContainerAdresses()  ;
         List<CachePeer> localCachePeers = cacheManagerPeerListener.getBoundCachePeers();
+		LOG.debug("localCachePeers are {}", localCachePeers);
         localCachePeers.stream()
         	.map(p -> {
 				try {
@@ -85,7 +89,7 @@ public abstract class ContainerCacheManagerPeerProvider extends RMICacheManagerP
         		otherContainerNames.forEach(otherHosts -> {
         			String otherUrl = "rmi:" + url.replace(hostAdress, otherHosts) ;
         			if (!peerUrls.containsKey(otherUrl)) {
-                		LOG.debug("Registering target docker CachePeer ", otherUrl);
+                		LOG.debug("Registering target docker CachePeer {}", otherUrl);
         				registerPeer(otherUrl) ;
         			}
         		}) ;
@@ -96,6 +100,10 @@ public abstract class ContainerCacheManagerPeerProvider extends RMICacheManagerP
  
     public String getHostAdress() {
 		return hostAdress;
+	}
+
+    public String getHostName() {
+		return hostName;
 	}
     
     /**
@@ -110,6 +118,9 @@ public abstract class ContainerCacheManagerPeerProvider extends RMICacheManagerP
             CachePeerEntry cachePeerEntry = (CachePeerEntry) peerUrls.get(rmiUrl);
             if (cachePeerEntry == null || stale(cachePeerEntry.date)) {
                 //can take seconds if there is a problem
+                if (cachePeerEntry == null) {
+                    LOG.info("Registering new CachePeer for {}", rmiUrl);
+                }
                 CachePeer cachePeer = lookupRemoteCachePeer(rmiUrl);
                 cachePeerEntry = new CachePeerEntry(cachePeer, new Date());
                 //synchronized due to peerUrls being a synchronizedMap
@@ -118,17 +129,13 @@ public abstract class ContainerCacheManagerPeerProvider extends RMICacheManagerP
                 cachePeerEntry.date = new Date();
             }
         } catch (IOException e) {
-            if (LOG.isDebugEnabled()) {
-                LOG.debug("Unable to lookup remote cache peer for " + rmiUrl + ". Removing from peer list. Cause was: "
-                        + e.getMessage());
-            }
+            LOG.warn("Unable to lookup remote cache peer for {}. Removing from peer list. Cause was: ",
+                    rmiUrl, e.getMessage());
             unregisterPeer(rmiUrl);
         } catch (NotBoundException e) {
             peerUrls.remove(rmiUrl);
-            if (LOG.isDebugEnabled()) {
-                LOG.debug("Unable to lookup remote cache peer for " + rmiUrl + ". Removing from peer list. Cause was: "
-                        + e.getMessage());
-            }
+            LOG.warn("Unable to lookup remote cache peer for {}. Removing from peer list. Cause was: {}",
+                       rmiUrl, e.getMessage());
         } catch (Throwable t) {
             LOG.error("Unable to lookup remote cache peer for " + rmiUrl
                     + ". Cause was not due to an IOException or NotBoundException which will occur in normal operation:" +

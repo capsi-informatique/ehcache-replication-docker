@@ -55,6 +55,12 @@
 
 	<dependencies>
 		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<scope>provided</scope>
+    		<version>1.18.24</version>			
+		</dependency>
+		<dependency>
 			<groupId>com.github.docker-java</groupId>
 			<artifactId>docker-java</artifactId>
 			<version>3.2.13</version>
@@ -71,6 +77,14 @@
 		    <artifactId>client-java</artifactId>
 		    <version>11.0.4</version>
 			<scope>provided</scope>
+		</dependency>
+		
+		<!-- https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter -->
+		<dependency>
+		    <groupId>org.junit.jupiter</groupId>
+		    <artifactId>junit-jupiter</artifactId>
+		    <version>5.9.1</version>
+		    <scope>test</scope>
 		</dependency>
 	</dependencies>
 	
