@@ -45,7 +45,7 @@
 		<connection>scm:git:git://github.com/capsi-informatique/ehcache-replication-docker.git</connection>
 		<developerConnection>scm:git:git@github.com:capsi-informatique/ehcache-replication-docker.git</developerConnection>
 		<url>https://github.com/capsi-informatique/ehcache-replication-docker</url>
-		<tag>HEAD</tag>
+		<tag>ehcache-replication-docker-1.0.2</tag>
 	</scm>
 
 	<properties>
