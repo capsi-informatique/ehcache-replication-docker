@@ -13,7 +13,7 @@ Usage Docker swarm :
 	<dependency>
 		<groupId>io.github.capsi-informatique</groupId>
 		<artifactId>ehcache-replication-docker</artifactId>
-		<version>1.0.2</version>
+		<version>1.0.3</version>
 	</dependency>
 	<dependency>
 		<groupId>com.github.docker-java</groupId>
@@ -52,7 +52,7 @@ Usage K8S :
 	<dependency>
 		<groupId>io.github.capsi-informatique</groupId>
 		<artifactId>ehcache-replication-docker</artifactId>
-		<version>1.0.2</version>
+		<version>1.0.3</version>
 	</dependency>
 	<dependency>
 	    <groupId>io.kubernetes</groupId>
@@ -68,3 +68,30 @@ And in you ehcache.xml :
 			/>
 
 Other k8s properties availables : k8sUrl, k8sUsername, k8sPassword, k8sNamespace, k8sToken, k8sValidateSSL
+
+Usage with API :
+
+	<dependency>
+		<groupId>io.github.capsi-informatique</groupId>
+		<artifactId>ehcache-replication-docker</artifactId>
+		<version>1.0.3</version>
+	</dependency>
+
+	<dependency>
+		<groupId>org.apache.httpcomponents</groupId>
+		<artifactId>fluent-hc</artifactId>
+		<version>4.5.14</version>
+	</dependency>
+	
+	<dependency>
+		<groupId>com.fasterxml.jackson.core</groupId>
+		<artifactId>jackson-databind</artifactId>
+		<version>2.10.3</version>
+	</dependency>
+
+And in you ehcache.xml :
+
+	<cacheManagerPeerProviderFactory
+			class="net.sf.ehcache.distribution.DockerCacheManagerPeerProviderFactory"
+			properties="apiServiceName=...,apiUrl=..."
+			/>

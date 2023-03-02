@@ -8,9 +8,6 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.stream.Collectors;
 
-import org.apache.http.HttpResponse;
-import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.ResponseHandler;
 import org.apache.http.client.fluent.Executor;
 import org.apache.http.client.fluent.Request;
 import org.slf4j.Logger;
@@ -66,18 +63,11 @@ public class ApiCacheManagerPeerProvider extends ContainerCacheManagerPeerProvid
         LOG.debug("About to lookup container instance of {}", serviceName);
         List<String> ips = Collections.emptyList();
         try {
-            ips = http.execute(Request.Get(apiUrl + "/" + serviceName)).handleResponse(new ResponseHandler<List<String>>() {
-                @Override
-                public List<String> handleResponse(HttpResponse response) throws ClientProtocolException, IOException {
-                    return ((Map<String, List<String>>) json.readValue(response.getEntity().getContent(), Map.class))
-                            .entrySet().stream()
-                            .filter(e -> serviceName.startsWith(e.getKey()))
-                            .map(Entry::getValue)
-                            .findFirst().get() ;
-                }
-            }).stream()
-                .filter(ip -> !getHostAdress().equals(ip))
-                .collect(Collectors.toList());
+            ips = http.execute(Request.Get(apiUrl + "/" + serviceName))
+                    .handleResponse(response -> ((Map<String, List<String>>) json.readValue(response.getEntity().getContent(), Map.class)).get(serviceName))
+                    .stream()
+                    .filter(ip -> !getHostAdress().equals(ip))
+                    .collect(Collectors.toList());
 
             LOG.debug("Found other container instance of {} : {}", serviceName, ips);
         } catch (IOException e) {

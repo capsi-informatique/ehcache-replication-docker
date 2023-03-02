@@ -5,6 +5,7 @@ import java.net.URI;
 import java.net.UnknownHostException;
 import java.time.Duration;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -55,6 +56,7 @@ public class DockerSwarmServiceRegistry implements ServiceRegistry {
     @Override
     public Map<String, List<String>> getServicePeers(String serviceName) {
         ListTasksCmd cmd = null ;
+        
         if (serviceName != null) {
         	cmd = dockerClient.listTasksCmd().withServiceFilter(serviceName);
         }
@@ -67,8 +69,7 @@ public class DockerSwarmServiceRegistry implements ServiceRegistry {
         tasks.stream()
                 .filter(t -> t.getStatus().getState().equals(TaskState.RUNNING))
                 .forEach(t -> {
-                	String name = t.getSpec().getContainerSpec().getLabels().get("com.docker.stack.namespace") ;;
-                	name = name == null ? t.getId() : name ;
+                	String name = dockerClient.listServicesCmd().withIdFilter(Arrays.asList(t.getServiceId())).exec().get(0).getSpec().getName() ;
                 	
 					List<String> l = addresses.computeIfAbsent(name, n -> new ArrayList<String>()) ;
                 	String hostName = t.getStatus().getContainerStatus().getContainerID().substring(0, 12) ;
