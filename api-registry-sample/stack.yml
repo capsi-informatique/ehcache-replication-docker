@@ -1,0 +1,46 @@
+version: '3.7'
+services:
+  app:
+    image: "${DEFAULT_CI_REGISTRY_IMAGE}:${IMAGE_TAG}"
+    init: true
+    networks:
+      - proxy
+    environment:
+      SERVER_SERVLET_CONTEXT_PATH: /${DEFAULT_CI_PROJECT_NAME}
+      SERVER_PORT: 8080
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    healthcheck:
+      test: [ "CMD", "curl", "--silent", "--fail", "http://localhost:8080/${DEFAULT_CI_PROJECT_NAME}/actuator/health" ]
+      interval: 10s
+      timeout: 15s
+      retries: 8
+      start_period: 60s
+    deploy:
+      mode: replicated
+      replicas: 1
+      resources:
+        limits:
+          memory: 384M
+        reservations:
+          cpus: '0.1'
+          memory: 384M
+      update_config:
+        parallelism: 1
+        order: start-first
+        failure_action: continue
+      restart_policy:
+        condition: any
+        delay: 5s
+        max_attempts: 0
+        window: 120s
+      labels:
+        # traefik 2 label
+        traefik.http.routers.api-registry.rule: Host(`${DOMAIN}`) && PathPrefix(`/${DEFAULT_CI_PROJECT_NAME}/`)
+        traefik.http.services.api-registry.loadbalancer.server.port: 8080
+        traefik.http.services.api-registry.loadbalancer.sticky.cookie: "true"
+        traefik.http.services.api-registry.loadbalancer.sticky.cookie.name: "traefik-${DEFAULT_CI_PROJECT_NAME}"
+
+networks:
+  proxy:
+    external: true

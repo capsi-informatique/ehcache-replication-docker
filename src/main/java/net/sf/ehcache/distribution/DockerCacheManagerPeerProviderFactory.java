@@ -18,6 +18,8 @@ public class DockerCacheManagerPeerProviderFactory extends CacheManagerPeerProvi
 	@Override
 	public CacheManagerPeerProvider createCachePeerProvider(CacheManager cacheManager, Properties properties) {
         String dockerSwarmServiceName = PropertyUtil.extractAndLogProperty("dockerSwarmServiceName", properties);
+        String apiServiceName = PropertyUtil.extractAndLogProperty("apiServiceName", properties);
+        String apiUrl = PropertyUtil.extractAndLogProperty("apiUrl", properties);
         String k8sUrl = PropertyUtil.extractAndLogProperty("k8sUrl", properties);
         String k8sUsername = PropertyUtil.extractAndLogProperty("k8sUsername", properties);
         String k8sPassword = PropertyUtil.extractAndLogProperty("k8sPassword", properties);
@@ -26,7 +28,10 @@ public class DockerCacheManagerPeerProviderFactory extends CacheManagerPeerProvi
         String k8sToken = PropertyUtil.extractAndLogProperty("k8sToken", properties);
         String k8sValidateSSL = PropertyUtil.extractAndLogProperty("k8sValidateSSL", properties);
         
-        if (StringUtils.isNotBlank(dockerSwarmServiceName)) {
+        if (StringUtils.isNotBlank(apiServiceName) && StringUtils.isNotBlank(apiServiceName)) {
+            return new ApiCacheManagerPeerProvider(cacheManager, apiServiceName, apiUrl);
+        }
+        else if (StringUtils.isNotBlank(dockerSwarmServiceName)) {
         	return new DockerCacheManagerPeerProvider(cacheManager, dockerSwarmServiceName);
 		}
 		else if (StringUtils.isNotBlank(k8sAppSelector)) {

@@ -28,3 +28,4 @@ target/
 .classpath
 .settings/
 release.proc
+.factorypath

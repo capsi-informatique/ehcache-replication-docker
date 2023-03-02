@@ -1,0 +1,31 @@
+docker:
+  docker-host: tcp://localhost:2375
+
+server:
+  port: 8080
+  servlet:
+    context-path: '/${spring.application.name}'
+    session:
+      cookie:
+        path: '/${spring.application.name}'
+  forward-headers-strategy: FRAMEWORK
+
+spring:
+  application:
+    name: api-registry
+  # support RFC 7807 Problem Details : https://www.sivalabs.in/spring-boot-3-error-reporting-using-problem-details/
+  mvc.problemdetails.enabled: true
+
+info:
+  swagger-ui: '${app.api.base-url}/${spring.application.name}/swagger-ui.html'
+  app:
+    description: 'api ${spring.application.name}'
+    name: '${spring.application.name}'
+    version: 1.0.0-SNAPSHOT
+
+logging:
+  level:
+    fr.rci: DEBUG
+    org:
+      springframework:
+        web: INFO
